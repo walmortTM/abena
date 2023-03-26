@@ -457,6 +457,7 @@ local defaults; do
                 if (a.UserInputType ~= Enum.UserInputType.Keyboard and (allowed[a.UserInputType.Name]) and (not keyboardOnly)) or (a.KeyCode and (not banned[a.KeyCode.Name])) then
                     local name = (a.UserInputType ~= Enum.UserInputType.Keyboard and a.UserInputType.Name or a.KeyCode.Name);
                     location[flag] = (a);
+                    callback(a.KeyCode)
                     button.Text = shortNames[name] or name;
                     
                 else
@@ -1068,17 +1069,6 @@ local defaults; do
             return key == inp.KeyCode
         end
     end
-
-    game:GetService("UserInputService").InputBegan:connect(function(input)
-        if (not library.binding) then
-            for idx, binds in next, library.binds do
-                local real_binding = binds.location[idx];
-                if real_binding and isreallypressed(real_binding, input) then
-                    binds.callback()
-                end
-            end
-        end
-    end)
 end
 
 return library
