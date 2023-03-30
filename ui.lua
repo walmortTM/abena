@@ -867,7 +867,7 @@ local defaults; do
                 check:FindFirstChild('dropdown_lbl'):WaitForChild('Selection').Text = name;
                 local c = 0;
                 for i, v in next, list do
-                    c = c + 20;
+                    c = c + 26;
                 end
 
                 local size = UDim2.new(1, 0, 0, c)
@@ -901,7 +901,7 @@ local defaults; do
 
                 for i, v in next, list do
                     local btn = library:Create('TextButton', {
-                        Size = UDim2.new(1, 0, 0, 20);
+                        Size = UDim2.new(1, 0, 0, 26);
                         BackgroundColor3 = library.options.btncolor;
                         BorderColor3 = library.options.bordercolor;
                         Text = v;
