@@ -256,7 +256,11 @@ local defaults; do
                     location[flag] = b;
                     callback(location[flag])
                     check:FindFirstChild(name).Checkmark.Text = location[flag] and utf8.char(10003) or "";
-                end
+                end;
+                Get = function()
+                    return location[flag]
+                end;
+                flag = flag;
             }
         end
         
@@ -369,7 +373,19 @@ local defaults; do
             end
             
             self:Resize();
-            return box
+            return {
+                box = box;
+                Set = function(Self, Value)
+                    box.Text = Value
+                    location[flag] = Value
+                    callback(Value)
+                end;
+                Get = function()
+                    return location[flag]
+                end;
+                type = type;
+                flag = flag;
+            }
         end
         
         function types:Bind(name, options, callback)
@@ -488,6 +504,19 @@ local defaults; do
             };
 
             self:Resize();
+
+            return {
+                Set = function(Self, Value)
+                    local KeyCode = Enum.KeyCode[Value]
+                    if KeyCode then
+                        local Name = tostring(KeyCode)
+                        button.Text = shortNames[Name] or Name
+                        location[flag] = KeyCode
+                        callback(KeyCode)
+                    end
+                end;
+                flag = flag;
+            }
         end
     
         function types:Section(name)
@@ -688,7 +717,11 @@ local defaults; do
                     overlay.Container.ValueLabel.Text  = number
                     location[flag] = number
                     callback(number)
-                end
+                end;
+                Get = function()
+                    return location[flag]
+                end;
+                flag = flag;
             }
         end 
 
@@ -805,7 +838,19 @@ local defaults; do
                 rebuild("")
             end
             self:Resize();
-            return reload, box:FindFirstChild('Box');
+            return {
+                Refresh = reload;
+                box = box:FindFirstChild('Box');
+                flag = flag;
+                Set = function(Self, Value)
+                    location[flag] = Value;
+                    box:FindFirstChild('Box').Text = Value
+                    callback(Value)
+                end;
+                Get = function()
+                    return location[flag]
+                end;
+            };
         end
         
         function types:Dropdown(name, options, callback)
@@ -967,6 +1012,14 @@ local defaults; do
 
             return {
                 Refresh = reload;
+                Set = function(Self, Value)
+                    location[flag] = Value
+                    check:WaitForChild('dropdown_lbl').Selection.Text = Value
+                    callback(Value)
+                end;
+                Get = function()
+                    return location[flag]
+                end;
             }
         end
     end
